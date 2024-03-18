@@ -1,5 +1,5 @@
 {
-  "name": "react-splayer",
+  "name": "sodon-player-react",
   "version": "0.0.1",
   "description": "Splayer lib for ReactJS",
   "main": "ReactSplayer.js",
@@ -10,6 +10,6 @@
     "type": "git",
     "url": "https://github.com/Yormungand/react-splayer"
   },
-  "author": "",
+  "author": "Turbold Jargal",
   "license": "ISC"
 }
