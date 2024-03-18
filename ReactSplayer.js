@@ -4,7 +4,7 @@ import React, {useEffect, useRef, useState} from "react";
 import PropTypes from "prop-types";
 
 
-class Splayer extends React.Component {
+class ReactSplayer extends React.Component {
 
     controlsShown = false;
     controlsTimeout = null;
@@ -924,4 +924,4 @@ class Splayer extends React.Component {
     }
 }
 
-export default Splayer;
+export default ReactSplayer;
