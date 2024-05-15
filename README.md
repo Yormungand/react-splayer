@@ -18,14 +18,13 @@ npm install react-splayer
 
 First, you need to import the ReactSplayer component and its associated CSS file.
 ```javascript
-import ReactSplayer from 'react-splayer';
-import 'react-splayer/dist/splayer.css';
+import ReactSplayer from "@yormungandr/react-splayer";
 ```
 
 
 ```javascript
 import React from 'react';
-import ReactSplayer from 'react-splayer';
+import ReactSplayer from "@yormungandr/react-splayer";
 import 'react-splayer/dist/splayer.css';
 
 function App() {
