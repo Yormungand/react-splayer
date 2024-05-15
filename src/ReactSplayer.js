@@ -1,6 +1,6 @@
 // import splayer.css
 import './splayer.css'
-import React, {useEffect, useRef, useState} from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
 
@@ -28,12 +28,6 @@ class ReactSplayer extends React.Component {
     ];
     currentSpeed = this.speeds[3];
     // currentQuality;
-
-
-    static propTypes = {
-        sources: PropTypes.array.isRequired,
-        title: PropTypes.string
-    }
 
     constructor(props) {
         super(props);
@@ -67,6 +61,8 @@ class ReactSplayer extends React.Component {
         this.settings_mainSection = React.createRef();
         this.settings_speedSection = React.createRef();
         this.settings_qualitySection = React.createRef();
+
+        this.backButton = React.createRef();
 
         const storedVolume = localStorage.getItem("splayer-volume");
 
@@ -113,17 +109,12 @@ class ReactSplayer extends React.Component {
         this.onMouseLeaveSeekbar = this.onMouseLeaveSeekbar.bind(this);
         this.handleDragThumb = this.handleDragThumb.bind(this);
         this.handleSeekbarRelease = this.handleSeekbarRelease.bind(this);
-    }
-
-
-    static defaultProps = {
-        videoTitle: "",
-        sources: [],
-        episodes: [],
-        fullscreenAuto: false,
+        this.onClickOnEpisodes = this.onClickOnEpisodes.bind(this);
     }
 
     componentDidMount() {
+        // console.clear();
+        console.log(this.props)
         this._videoEvents();
         this._controlsEvents();
         this._shortcutEvents();
@@ -262,6 +253,8 @@ class ReactSplayer extends React.Component {
         if (this.controls.current.classList.contains("hidden")) {
             this.controls.current.classList.remove("hidden");
             this.controlsShown = true;
+            if (this.backButton.current)
+                this.backButton.current.style.opacity = 1;
         }
     }
 
@@ -270,6 +263,8 @@ class ReactSplayer extends React.Component {
             if (!this.overrideTimeout) {
                 this.controls.current?.classList.add("hidden");
                 this.controlsShown = false;
+                if (this.backButton.current)
+                    this.backButton.current.style.opacity = 0;
             }
         }
     }
@@ -557,9 +552,20 @@ class ReactSplayer extends React.Component {
      */
 
 
+
+    onClickOnEpisodes() {
+        const { onClickEpisodes } = this.props;
+        if (onClickEpisodes)
+            onClickEpisodes("ClickedOnEpisodes");
+    }
+
     render() {
         return (
             <div className="player" ref={this.wrapper}>
+                {
+                    this.props.backButton && this.props.navigate &&
+                    <div ref={this.backButton} className="back-button" onClick={()=> this.props.navigate && this.props.navigate(-1)}/>
+                }
                 <video
                     ref={this.video}
                     preload="metadata"
@@ -576,7 +582,8 @@ class ReactSplayer extends React.Component {
                         <div ref={this.bufferedProgress} className="buffered-overlay"/>
                         <div ref={this.seekbarTimeTooltip} className="seekbar-time">--:--</div>
                     </div>
-                    <button ref={this.playPauseButton} type="button" data-state="play"
+                    <button ref={this.playPauseButton}
+                            type="button" data-state="play"
                             className="playpause-button"></button>
                     <button ref={this.rewindButton} type="button" className="rewind-button"></button>
                     <button ref={this.forwardButton} type="button" className="forward-button"></button>
@@ -586,6 +593,7 @@ class ReactSplayer extends React.Component {
                         <span ref={this.currentTimeEl}>--:--</span> / <span ref={this.durationEl}>--:--</span>
                     </div>
                     <div ref={this.title} className="video-title">{this.props.videoTitle}</div>
+                    <button onClick={this.onClickOnEpisodes} className="episodes-button"></button>
                     <button ref={this.settingsButton} className="cog-button"></button>
                     <button ref={this.fullscreenButton} type="button" data-state="fs-enter"
                             className="fullscreen-button"></button>
@@ -641,10 +649,10 @@ class ReactSplayer extends React.Component {
                     </div>
                 </div>
                 <div ref={this.spinnerEl} className="spinner"/>
-                <div ref={this.playIndicator} className="play-button" data-state="play"/>
-                <div ref={this.volumeIndicator} className="volume-control" data-state="volume_loud"/>
-                <div ref={this.rewinded} className="rewinded"/>
-                <div ref={this.forwarded} className="forwarded"/>
+                <div ref={this.playIndicator} className="indicator-elements play-button" data-state="play"/>
+                <div ref={this.volumeIndicator} className="indicator-elements volume-control" data-state="volume_loud"/>
+                <div ref={this.rewinded} className="indicator-elements rewinded"/>
+                <div ref={this.forwarded} className="indicator-elements forwarded"/>
             </div>
         )
 
@@ -922,6 +930,20 @@ class ReactSplayer extends React.Component {
     hideTimeTooltip(e) {
         this.seekbarTimeTooltip.current.style.opacity = 0;
     }
+}
+
+ReactSplayer.propTypes = {
+    sources: PropTypes.array.isRequired,
+    title: PropTypes.string,
+    onClickEpisodes: PropTypes.func,
+}
+
+ReactSplayer.defaultProps = {
+    videoTitle: "",
+    sources: [],
+    episodes: [],
+    fullscreenAuto: false,
+    backButton: false,
 }
 
 export default ReactSplayer;

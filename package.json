@@ -1,32 +1,33 @@
 {
-  "name": "sodon-player-react",
+  "name": "react-splayer",
   "version": "0.0.6",
   "description": "Splayer lib for ReactJS",
-  "main": "ReactSplayer.js",
+  "main": "dist/react-splayer.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/Yormungand/react-splayer"
   },
   "author": "Turbold Jargal",
-  "license": "ISC",
+  "license": "MIT",
+  "dependencies": {
+    "prop-types": "^15.7.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
   "devDependencies": {
-    "@babel/core": "^7.24.0",
-    "@babel/preset-env": "^7.24.0",
-    "@babel/preset-react": "^7.23.3"
-  },
-  "babel": {
-    "presets": [
-      "@babel/preset-env",
-      "@babel/preset-react"
-    ]
-  },
-  "plugins": [
-    [
-      "@babel/plugin-proposal-private-property-in-object",
-      "@babel/plugin-syntax-jsx"
-    ]
-  ]
+    "@babel/preset-env": "^7.24.5",
+    "@babel/preset-react": "^7.24.1",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.2.2",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^7.1.1",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.24.2",
+    "webpack-cli": "^4.5.0"
+  }
 }
