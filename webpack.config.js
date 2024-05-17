@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-    mode: 'production', // or 'production'
+    mode: 'development', // or 'production'
     entry: './src/ReactSplayer.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
