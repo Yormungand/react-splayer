@@ -74,9 +74,14 @@ class ReactSplayer extends React.Component {
 
         /* #### Video events ####*/
         this.onLoadedMetaData = this.onLoadedMetaData.bind(this);
+        this.onDurationChange = this.onDurationChange.bind(this);
+        this.onSuspend = this.onSuspend.bind(this);
+        this.onStalled = this.onStalled.bind(this);
+        this.onError = this.onError.bind(this);
         this.mouseMoveOnVideo = this.mouseMoveOnVideo.bind(this);
         this.onClickOnVideo = this.onClickOnVideo.bind(this);
         this.onVideoCanPlay = this.onVideoCanPlay.bind(this);
+        this.onVideoCanPlayThrough = this.onVideoCanPlayThrough.bind(this);
         this.onVideoTimeUpdate = this.onVideoTimeUpdate.bind(this);
         this.onVideoProgress = this.onVideoProgress.bind(this);
         this.onVideoPlay = this.onVideoPlay.bind(this);
@@ -168,7 +173,7 @@ class ReactSplayer extends React.Component {
         if (_this.video.current && _this.video.current.muted)
             _this.video.current.muted = false;
         _this.video.current.volume = Math.min(1, _this.video.current.volume + .1);
-        _this.setState({volume: Math.min(1, _this.video.current.volume + .1)})
+        _this.setState({volume: Math.min(1, _this.video.current.volume + .1)});
         // _this.volume = Math.min(1, _this.video.current.volume + .1);
     }
 
@@ -493,9 +498,14 @@ class ReactSplayer extends React.Component {
         }
         const _this = this;
         _this.video.current.addEventListener("loadedmetadata", _this.onLoadedMetaData, false);
+        _this.video.current.addEventListener("durationchange", _this.onDurationChange, false);
         _this.video.current.addEventListener("mousemove", _this.mouseMoveOnVideo, false);
+        _this.video.current.addEventListener("suspend", _this.onSuspend, false);
+        _this.video.current.addEventListener("stalled", _this.onStalled, false);
+        _this.video.current.addEventListener("error", _this.onError, false);
         _this.video.current.addEventListener("click", _this.onClickOnVideo);
         _this.video.current.addEventListener("canplay", _this.onVideoCanPlay, false);
+        _this.video.current.addEventListener("canplaythrough", _this.onVideoCanPlay, false);
         _this.video.current.addEventListener("timeupdate", _this.onVideoTimeUpdate, false);
         _this.video.current.addEventListener("progress", _this.onVideoProgress, false);
         _this.video.current.addEventListener("play", _this.onVideoPlay, false);
@@ -509,9 +519,14 @@ class ReactSplayer extends React.Component {
     _unmountVideoEvents() {
         const _this = this;
         _this.video.current.removeEventListener("loadedmetadata", _this.onLoadedMetaData, false);
+        _this.video.current.removeEventListener("durationchange", _this.onDurationChange, false);
         _this.video.current.removeEventListener("mousemove", _this.mouseMoveOnVideo, false);
+        _this.video.current.removeEventListener("suspend", _this.onSuspend, false);
+        _this.video.current.removeEventListener("stalled", _this.onStalled, false);
+        _this.video.current.removeEventListener("error", _this.onError, false);
         _this.video.current.removeEventListener("click", _this.onClickOnVideo);
         _this.video.current.removeEventListener("canplay", _this.onVideoCanPlay, false);
+        _this.video.current.removeEventListener("canplaythrough", _this.onVideoCanPlayThrough, false);
         _this.video.current.removeEventListener("timeupdate", _this.onVideoTimeUpdate, false);
         _this.video.current.removeEventListener("progress", _this.onVideoProgress, false);
         _this.video.current.removeEventListener("play", _this.onVideoPlay, false);
@@ -661,7 +676,33 @@ class ReactSplayer extends React.Component {
 
     // ###### VIDEO EVENTS ######
     onLoadedMetaData(e) {
+        const { loadedmetadata } = this.props;
+        if ( loadedmetadata )
+            loadedmetadata(e);
+    }
 
+    onDurationChange(e) {
+        const {durationchange} = this.props;
+        if (durationchange)
+            durationchange(e)
+    }
+
+    onSuspend(e) {
+        const {suspend} = this.props;
+        if (suspend)
+            suspend(e);
+    }
+
+    onStalled(e) {
+        const {stalled} = this.props;
+        if (stalled)
+            stalled(e);
+    }
+
+    onError(e) {
+        const {error} = this.props;
+        if (error)
+            error(e);
     }
 
     mouseMoveOnVideo(e) {
@@ -680,23 +721,41 @@ class ReactSplayer extends React.Component {
     }
 
     onVideoCanPlay(e) {
+        const {canplay} = this.props;
+        if (canplay)
+            canplay(e);
         this.spinnerEl.current.style.opacity = 0;
         this.setState({canplay: true});
         this.durationEl.current.innerText = this._formatTime(this.video.current.duration);
         this.currentTimeEl.current.innerText = this._formatTime(0);
     }
 
+    onVideoCanPlayThrough(e) {
+        const {canplaythrough} = this.props;
+        if (canplaythrough)
+            canplaythrough(e);
+    }
+
     onVideoTimeUpdate(e) {
+        const {timeupdate} = this.props;
+        if (timeupdate)
+            timeupdate(e);
         this.currentTime = this.video.current.currentTime;
         this.currentTimeEl.current.innerText = this._formatTime(this.video.current.currentTime);
         this._changeSeekbarProgress();
     }
 
     onVideoProgress(e) {
+        const {progress} = this.props;
+        if (progress)
+            progress(e);
         this._changeBufferedProgress();
     }
 
     onVideoPlay(e) {
+        const {play} = this.props;
+        if (play)
+            play(e);
         this.playing = true;
         this.playPauseButton.current.setAttribute("data-state", "pause");
         this.playIndicator.current.setAttribute("data-state", "play");
@@ -707,6 +766,9 @@ class ReactSplayer extends React.Component {
     }
 
     onVideoPause(e) {
+        const {pause} = this.props;
+        if (pause)
+            pause(e);
         this.playing = false;
         this.playPauseButton.current.setAttribute("data-state", "play");
         this.playIndicator.current.setAttribute("data-state", "pause");
@@ -717,19 +779,31 @@ class ReactSplayer extends React.Component {
     }
 
     onVideoWaiting(e) {
+        const {waiting} = this.props;
+        if (waiting)
+            waiting(e);
         this.spinnerEl.current.style.opacity = 1;
     }
 
     onVideoLoadStart(e) {
+        const {loadstart} = this.props;
+        if (loadstart)
+            loadstart(e);
         this.spinnerEl.current.style.opacity = 1;
     }
 
     onVideoPlaying(e) {
+        const {playing} = this.props;
+        if (playing)
+            playing(e);
         this.spinnerEl.current.style.opacity = 0;
     }
 
     onVolumechange(e) {
         localStorage.setItem("splayer-volume", this.video.current.volume);
+        const { volumechange } = this.props;
+        if (volumechange)
+            volumechange(e);
         const video = this.video.current;
         const volume = this.video.current.volume;
         const volumeButton = this.volumeButton.current;
@@ -936,6 +1010,27 @@ ReactSplayer.propTypes = {
     sources: PropTypes.array.isRequired,
     title: PropTypes.string,
     onClickEpisodes: PropTypes.func,
+    canplay: PropTypes.func,
+    canplaythrough: PropTypes.func,
+    emptied: PropTypes.func,
+    ended: PropTypes.func,
+    play: PropTypes.func,
+    playing: PropTypes.func,
+    pause: PropTypes.func,
+    seeked: PropTypes.func,
+    seeking: PropTypes.func,
+    error: PropTypes.func,
+    timeupdate: PropTypes.func,
+    durationchange: PropTypes.func,
+    progress: PropTypes.func,
+    ratechange: PropTypes.func,
+    volumechange: PropTypes.func,
+    loadeddata: PropTypes.func,
+    loadedmetadata: PropTypes.func,
+    loadstart: PropTypes.func,
+    suspend: PropTypes.func,
+    stalled: PropTypes.func,
+    waiting: PropTypes.func,
 }
 
 ReactSplayer.defaultProps = {
