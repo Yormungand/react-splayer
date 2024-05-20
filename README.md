@@ -76,26 +76,26 @@ The ReactSplayer component accepts the following props:
 
 ---
 
-| Event name     |                                                                                 Fired when                                                                                  |
-|----------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| Event name     | Fired when                                                                                                                                                                  |
+|----------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | canplay        | The browser can play the media, but estimates that not enough data has been loaded to play the media up to its end without having to stop for further buffering of content. |
-| canplaythrough |                                      The browser estimates it can play the media up to its end without stopping for content buffering.                                      |
-| durationchange |                                                                 The `duration` attribute has been updated.                                                                  |
-| emptied        |   The media has become empty; for example, this event is sent if the media has already been loaded (or partially loaded), and the `load()` method is called to reload it.   |
-| ended          |                                                       Playback has stopped because the end of the media was reached.                                                        |
-| error          |                                An error occurred while fetching the media data, or the type of the resource is not a supported media format.                                |
-| loadeddata     |                                                             The first frame of the media has finished loading.                                                              |
-| loadedmetadata |                                                                        The metadata has been loaded.                                                                        |
-| loadstart      |                                                          Fired when the browser has started to load the resource.                                                           |
-| pause          |                                                                          Playback has been paused.                                                                          |
-| play           |                                                                             Playback has begun.                                                                             |
-| playing        |                                             Playback is ready to start after having been paused or delayed due to lack of data.                                             |
-| progress       |                                                             Fired periodically as the browser loads a resource.                                                             |
-| ratechange     |                                                                       The playback rate has changed.                                                                        |
-| seeked         |                                                                         A seek operation completed.                                                                         |
-| seeking        |                                                                           A seek operation began.                                                                           |
-| stalled        |                                           The user agent is trying to fetch media data, but data is unexpectedly not forthcoming.                                           |
-| suspend        |                                                                   Media data loading has been suspended.                                                                    |
-| timeupdate     |                                                     The time indicated by the `currentTime` attribute has been updated.                                                     |
-| volumechange   |                                                                           The volume has changed.                                                                           |
-| waiting        |                                                          Playback has stopped because of a temporary lack of data.                                                          |
+| canplaythrough | The browser estimates it can play the media up to its end without stopping for content buffering.                                                                           |
+| durationchange | The `duration` attribute has been updated.                                                                                                                                  |
+| emptied        | The media has become empty; for example, this event is sent if the media has already been loaded (or partially loaded), and the `load()` method is called to reload it.     |
+| ended          | Playback has stopped because the end of the media was reached.                                                                                                              |
+| error          | An error occurred while fetching the media data, or the type of the resource is not a supported media format.                                                               |
+| loadeddata     | The first frame of the media has finished loading.                                                                                                                          |
+| loadedmetadata | The metadata has been loaded.                                                                                                                                               |
+| loadstart      | Fired when the browser has started to load the resource.                                                                                                                    |
+| pause          | Playback has been paused.                                                                                                                                                   |
+| play           | Playback has begun.                                                                                                                                                         |
+| playing        | Playback is ready to start after having been paused or delayed due to lack of data.                                                                                         |
+| progress       | Fired periodically as the browser loads a resource.                                                                                                                         |
+| ratechange     | The playback rate has changed.                                                                                                                                              |
+| seeked         | A seek operation completed.                                                                                                                                                 |
+| seeking        | A seek operation began.                                                                                                                                                     |
+| stalled        | The user agent is trying to fetch media data, but data is unexpectedly not forthcoming.                                                                                     |
+| suspend        | Media data loading has been suspended.                                                                                                                                      |
+| timeupdate     | The time indicated by the `currentTime` attribute has been updated.                                                                                                         |
+| volumechange   | The volume has changed.                                                                                                                                                     |
+| waiting        | Playback has stopped because of a temporary lack of data.                                                                                                                   |
