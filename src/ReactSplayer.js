@@ -571,15 +571,15 @@ class ReactSplayer extends React.Component {
     onClickOnEpisodes() {
         const { onClickEpisodes } = this.props;
         if (onClickEpisodes)
-            onClickEpisodes("ClickedOnEpisodes");
+            onClickEpisodes();
     }
 
     render() {
         return (
             <div className="player" ref={this.wrapper}>
                 {
-                    this.props.backButton && this.props.navigate &&
-                    <div ref={this.backButton} className="back-button" onClick={()=> this.props.navigate && this.props.navigate(-1)}/>
+                    typeof this.props.backNavigation === "function" &&
+                    <div ref={this.backButton} className="back-button" onClick={()=> this.props.backNavigation()}/>
                 }
                 <video
                     ref={this.video}
@@ -608,7 +608,10 @@ class ReactSplayer extends React.Component {
                         <span ref={this.currentTimeEl}>--:--</span> / <span ref={this.durationEl}>--:--</span>
                     </div>
                     <div ref={this.title} className="video-title">{this.props.videoTitle}</div>
-                    <button onClick={this.onClickOnEpisodes} className="episodes-button"></button>
+                    {
+                        this.props.episodes > 1 &&
+                        <button onClick={this.onClickOnEpisodes} className="episodes-button"></button>
+                    }
                     <button ref={this.settingsButton} className="cog-button"></button>
                     <button ref={this.fullscreenButton} type="button" data-state="fs-enter"
                             className="fullscreen-button"></button>
@@ -1008,37 +1011,41 @@ class ReactSplayer extends React.Component {
 
 ReactSplayer.propTypes = {
     sources: PropTypes.array.isRequired,
-    title: PropTypes.string,
+    videoTitle: PropTypes.string,
+    episodes: PropTypes.number,
+    fullscreenAuto: PropTypes.bool,
+    backNavigation: PropTypes.func,
     onClickEpisodes: PropTypes.func,
     canplay: PropTypes.func,
     canplaythrough: PropTypes.func,
+    durationchange: PropTypes.func,
     emptied: PropTypes.func,
     ended: PropTypes.func,
+    error: PropTypes.func,
     play: PropTypes.func,
     playing: PropTypes.func,
     pause: PropTypes.func,
-    seeked: PropTypes.func,
-    seeking: PropTypes.func,
-    error: PropTypes.func,
-    timeupdate: PropTypes.func,
-    durationchange: PropTypes.func,
-    progress: PropTypes.func,
-    ratechange: PropTypes.func,
-    volumechange: PropTypes.func,
     loadeddata: PropTypes.func,
     loadedmetadata: PropTypes.func,
     loadstart: PropTypes.func,
-    suspend: PropTypes.func,
+    progress: PropTypes.func,
+    ratechange: PropTypes.func,
+    seeked: PropTypes.func,
+    seeking: PropTypes.func,
     stalled: PropTypes.func,
+    suspend: PropTypes.func,
+    timeupdate: PropTypes.func,
+    volumechange: PropTypes.func,
     waiting: PropTypes.func,
 }
 
 ReactSplayer.defaultProps = {
     videoTitle: "",
     sources: [],
-    episodes: [],
+    episodes: 1,
     fullscreenAuto: false,
-    backButton: false,
+    backNavigation: null,
+    onClickOnEpisodes: () => {},
 }
 
 export default ReactSplayer;
