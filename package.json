@@ -1,6 +1,6 @@
 {
   "name": "@yormungandr/react-splayer",
-  "version": "0.0.8",
+  "version": "0.0.10",
   "description": "Splayer lib for ReactJS",
   "main": "dist/react-splayer.js",
   "scripts": {

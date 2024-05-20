@@ -130,7 +130,9 @@ class ReactSplayer extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-
+        if (prevProps.sources !== this.props.sources) {
+            this.handleSourcesChange();
+        }
     }
 
     componentWillUnmount() {
@@ -1007,6 +1009,18 @@ class ReactSplayer extends React.Component {
     hideTimeTooltip(e) {
         this.seekbarTimeTooltip.current.style.opacity = 0;
     }
+
+    handleSourcesChange() {
+        console.clear();
+        console.log("Sources has been changed");
+        console.log(this.props.sources)
+        this.setState({currentQuality: this.props.sources[0]});
+        setTimeout(() => {
+            this.video.current.load();
+            this._playVideo();
+        }, 300)
+    }
+
 }
 
 ReactSplayer.propTypes = {
