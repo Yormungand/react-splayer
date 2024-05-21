@@ -680,10 +680,15 @@ class ReactSplayer extends React.Component {
 
 
     // ###### VIDEO EVENTS ######
-    onLoadedMetaData(e) {
-        const { loadedmetadata } = this.props;
-        if ( loadedmetadata )
-            loadedmetadata(e);
+    async onLoadedMetaData(e) {
+        try {
+            const { loadedmetadata } = this.props;
+            if ( loadedmetadata )
+                loadedmetadata(e);
+            this._playVideo();
+        } catch (e) {
+            console.error("Error loading metadata" + e);
+        }
     }
 
     onDurationChange(e) {
@@ -1011,13 +1016,9 @@ class ReactSplayer extends React.Component {
     }
 
     handleSourcesChange() {
-        console.clear();
-        console.log("Sources has been changed");
-        console.log(this.props.sources)
         this.setState({currentQuality: this.props.sources[0]});
         setTimeout(() => {
             this.video.current.load();
-            this._playVideo();
         }, 300)
     }
 
